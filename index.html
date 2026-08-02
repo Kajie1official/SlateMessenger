@@ -1,76 +1,80 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Мой Мессенджер</title>
+transition: all 0.3s ease-in-out;
+      box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
+    }
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    .btn-glow:hover {
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.8), 0 0 35px rgba(99, 102, 241, 0.6);
+      transform: translateY(-2px);
+    }
 
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: #0f172a; color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
-    .card { background: #1e293b; padding: 24px; border-radius: 16px; width: 100%; max-width: 420px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid #334155; }
-    h2, h3 { text-align: center; margin-bottom: 16px; color: #38bdf8; }
-    input, button { width: 100%; padding: 12px 14px; margin: 6px 0; border-radius: 10px; border: none; outline: none; font-size: 15px; }
-    input { background: #0f172a; color: #fff; border: 1px solid #334155; }
-    input:focus { border-color: #38bdf8; }
-    button { background: #0284c7; color: #fff; font-weight: 600; cursor: pointer; transition: 0.2s; }
-    button:hover { background: #0369a1; }
-    .btn-green { background: #16a34a; }
-    .btn-green:hover { background: #15803d; }
-    .btn-apk { display: block; text-align: center; background: #334155; color: #38bdf8; padding: 10px; border-radius: 10px; text-decoration: none; font-weight: 600; margin-top: 12px; font-size: 14px; border: 1px solid #475569; }
-    .btn-apk:hover { background: #475569; color: #fff; }
-    #chat-box { height: 350px; overflow-y: auto; background: #0f172a; padding: 12px; border-radius: 10px; margin: 12px 0; border: 1px solid #334155; display: flex; flex-direction: column; gap: 8px; }
-    .msg { background: #334155; padding: 8px 12px; border-radius: 10px; max-width: 85%; word-break: break-word; align-self: flex-start; }
-    .msg.my-msg { background: #0284c7; align-self: flex-end; }
-    .msg .author { color: #94a3b8; font-weight: 600; display: block; font-size: 11px; margin-bottom: 2px; }
-    .msg.my-msg .author { color: #bae6fd; }
-    .hidden { display: none; }
+    .btn-glow:active {
+      transform: translateY(0);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+
+    /* Скроллбар */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 3px;
+    }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <!-- ЭКРАН 1: Авторизация -->
-    <div id="auth-screen">
-      <h2>🔥 Вход в Мессенджер</h2>
-      <input type="email" id="email" placeholder="Твой Email">
-      <input type="password" id="pass" placeholder="Твой Пароль">
-      <button onclick="login()" class="btn-green">Войти</button>
-      <button onclick="register()">Зарегистрироваться</button>
-
-      <!-- КНОПКА СКАЧИВАНИЯ APK С ГИТХАБА -->
-      <a href="app.apk" download class="btn-apk">📱 Скачать приложение (.apk)</a>
-    </div>
-
-    <!-- ЭКРАН 2: Чат -->
-    <div id="chat-screen" class="hidden">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h3>Общий чат</h3>
-        <button onclick="logout()" style="width: auto; padding: 6px 12px; background: #ef4444; font-size: 12px;">Выйти</button>
+  <div class="app-container">
+    <!-- Шапка -->
+    <header class="header">
+      <div class="brand-title">SlateMessenger</div>
+      <div class="user-status">
+        <span class="status-dot"></span> Online
       </div>
-      <div id="chat-box"></div>
-      <div style="display: flex; gap: 8px;">
-        <input type="text" id="msg-input" placeholder="Сообщение..." style="margin: 0;" onkeypress="if(event.key==='Enter') sendMessage()">
-        <button onclick="sendMessage()" style="width: auto; padding: 0 16px;">➤</button>
+    </header>
+
+    <!-- Чат -->
+    <main class="chat-box" id="chatBox">
+      <div class="message received">
+        <div class="message-author">Система</div>
+        Добро пожаловать в SlateMessenger! Сообщения передаются в реальном времени.
       </div>
-    </div>
+    </main>
+
+    <!-- Поле ввода -->
+    <footer class="input-area">
+      <input type="text" class="chat-input" id="messageInput" placeholder="Напишите сообщение..." autocomplete="off">
+      <button class="btn-glow" id="sendBtn">Отправить</button>
+    </footer>
   </div>
 
   <script>
-    // ⚠️ ВСТАВЬ СЮДА СВОИ КЛЮЧИ ИЗ CONSOLE FIREBASE
-    const firebaseConfig = {
-      apiKey: "ТВОЙ_API_KEY",
-      authDomain: "ТВОЙ_PROJECT.firebaseapp.com",
-      projectId: "ТВОЙ_PROJECT_ID",
-      storageBucket: "ТВОЙ_PROJECT.appspot.com",
-      messagingSenderId: "123456789",
-      appId: "ТВОЙ_APP_ID"
-    };
+    // Простая логика отправки локальных сообщений (готово к интеграции с Firebase)
+    const sendBtn = document.getElementById('sendBtn');
+    const messageInput = document.getElementById('messageInput');
+    const chatBox = document.getElementById('chatBox');
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+    function sendMessage() {
+      const text = messageInput.value.trim();
+      if (!text) return;
+
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'message sent';
+      msgDiv.textContent = text;
+
+      chatBox.appendChild(msgDiv);
+      messageInput.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+  </script>
+
+</body>
+</html>
