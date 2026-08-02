@@ -24,42 +24,60 @@
     @media (min-width: 900px) { .tg-layout { width: 92vw; height: 92vh; border-radius: 20px; border: 1px solid var(--border); overflow: hidden; } }
 
     /* САЙДБАР */
-    .sidebar { width: 340px; background: rgba(15, 23, 42, 0.95); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 10; }
+    .sidebar { width: 340px; background: rgba(15, 23, 42, 0.95); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 10; transition: all 0.2s ease; }
     .sidebar-header { padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); background: #0b1120; }
     
-    .my-profile-btn { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 6px 10px; border-radius: 12px; background: #1e293b; border: 1px solid var(--border); transition: 0.2s; }
-    .my-profile-btn:hover { border-color: var(--accent); }
+    .my-profile-btn { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 6px 10px; border-radius: 12px; background: #1e293b; border: 1px solid var(--border); transition: 0.2s; width: 100%; }
+    .my-profile-btn:hover { border-color: var(--accent); background: #26334d; }
 
-    .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex-shrink: 0; }
 
     .search-bar { padding: 10px 14px; background: #0b1120; }
-    .search-input { width: 100%; background: #1e293b; border: 1px solid var(--border); color: #fff; padding: 10px 14px; border-radius: 12px; outline: none; font-size: 0.9rem; }
-    .search-input:focus { border-color: var(--accent); }
+    .search-input { width: 100%; background: #1e293b; border: 1px solid var(--border); color: #fff; padding: 10px 14px; border-radius: 12px; outline: none; font-size: 0.9rem; transition: 0.2s; }
+    .search-input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
 
     .chat-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
     .chat-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; cursor: pointer; border-bottom: 1px solid rgba(51, 65, 85, 0.2); transition: 0.2s; }
     .chat-item:hover, .chat-item.active { background: #1e293b; }
 
-    /* ОПИСАНИЕ ЧАТА */
+    /* ЧАТ */
     .main-chat { flex: 1; display: flex; flex-direction: column; background: #0f172a; position: relative; }
     .chat-header { padding: 12px 20px; background: rgba(11, 17, 32, 0.9); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; z-index: 5; }
 
-    .messages-container { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background-size: cover; background-position: center; }
+    .messages-container { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background-size: cover; background-position: center; scroll-behavior: smooth; }
 
-    .msg-group { display: flex; gap: 10px; max-width: 75%; animation: popIn 0.2s ease; }
+    /* СООБЩЕНИЯ */
+    .msg-group { display: flex; gap: 10px; max-width: 75%; animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     .msg-group.me { align-self: flex-end; flex-direction: row-reverse; }
-    @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    @keyframes popIn { from { opacity: 0; transform: scale(0.92) translateY(5px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
-    .msg-bubble { background: #1e293b; padding: 10px 14px; border-radius: 16px; border: 1px solid var(--border); }
+    .msg-bubble { background: #1e293b; padding: 10px 14px; border-radius: 16px; border: 1px solid var(--border); position: relative; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
     .me .msg-bubble { background: var(--accent-gradient); border: none; color: #fff; }
     .msg-author { font-size: 0.75rem; color: var(--accent); font-weight: bold; margin-bottom: 3px; }
     .me .msg-author { display: none; }
-    .msg-meta { font-size: 0.65rem; color: var(--text-muted); text-align: right; margin-top: 4px; }
+    .msg-text { font-size: 0.95rem; line-height: 1.4; word-break: break-word; }
+    .msg-meta { font-size: 0.65rem; color: var(--text-muted); text-align: right; margin-top: 4px; display: flex; justify-content: flex-end; gap: 4px; }
+    .me .msg-meta { color: rgba(255,255,255,0.7); }
 
-    /* ВВОД */
-    .input-wrapper { padding: 12px 16px; background: rgba(11, 17, 32, 0.95); border-top: 1px solid var(--border); display: flex; gap: 10px; align-items: center; }
-    .input-field { flex: 1; background: #1e293b; border: 1px solid var(--border); color: #fff; padding: 12px 16px; border-radius: 14px; outline: none; }
-    .send-btn { background: var(--accent-gradient); border: none; color: #fff; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .msg-reply-preview { background: rgba(0,0,0,0.25); border-left: 3px solid var(--accent); padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; margin-bottom: 6px; color: #e2e8f0; }
+    .reactions-bar { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+    .reaction-chip { background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border); border-radius: 12px; padding: 2px 6px; font-size: 0.75rem; cursor: pointer; transition: 0.2s; }
+    .reaction-chip:hover { transform: scale(1.15); }
+
+    /* ВВОД СООБЩЕНИЯ И СТИКЕРЫ */
+    .input-wrapper { padding: 12px 16px; background: rgba(11, 17, 32, 0.95); border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
+    .reply-bar-active { display: none; justify-content: space-between; align-items: center; background: #1e293b; padding: 6px 12px; border-left: 3px solid var(--accent); border-radius: 6px; font-size: 0.8rem; }
+    
+    .input-controls { display: flex; gap: 10px; align-items: center; }
+    .input-field { flex: 1; background: #1e293b; border: 1px solid var(--border); color: #fff; padding: 12px 16px; border-radius: 14px; outline: none; font-size: 0.95rem; }
+    .input-field:focus { border-color: var(--accent); }
+    .send-btn { background: var(--accent-gradient); border: none; color: #fff; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: 0.2s; }
+    .send-btn:hover { transform: scale(1.05); }
+
+    .sticker-popover { position: absolute; bottom: 75px; left: 20px; background: #1e293b; border: 1px solid var(--border); border-radius: 16px; padding: 12px; display: none; grid-template-columns: repeat(5, 1fr); gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); z-index: 20; }
+    .sticker-popover.active { display: grid; }
+    .sticker-item { font-size: 2rem; cursor: pointer; text-align: center; transition: 0.2s; }
+    .sticker-item:hover { transform: scale(1.3); }
 
     /* МОДАЛКИ */
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 1000; }
@@ -69,7 +87,7 @@
     .tab-btn { flex: 1; padding: 8px; border: none; background: transparent; color: var(--text-muted); border-radius: 8px; cursor: pointer; font-weight: bold; }
     .tab-btn.active { background: var(--card-bg); color: #fff; border: 1px solid var(--border); }
 
-    .btn-full { background: var(--accent-gradient); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    .btn-full { background: var(--accent-gradient); color: #fff; border: none; padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; text-align: center; }
     .btn-full:hover { opacity: 0.9; }
 
     .file-input-label { display: block; padding: 10px; background: #0f172a; border: 1px dashed var(--accent); border-radius: 10px; text-align: center; cursor: pointer; font-size: 0.85rem; color: var(--accent); }
@@ -89,15 +107,15 @@
       <div class="sidebar-header">
         <div class="my-profile-btn" id="openProfileBtn">
           <img src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="avatar" id="myAvatar">
-          <div style="display:flex; flex-direction:column;">
-            <span id="myName" style="font-weight:bold; font-size:0.9rem;">Профиль</span>
+          <div style="display:flex; flex-direction:column; overflow:hidden;">
+            <span id="myName" style="font-weight:bold; font-size:0.9rem; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">Мой Профиль</span>
             <span style="font-size:0.7rem; color:var(--accent);">Настройки ⚙️</span>
           </div>
         </div>
       </div>
 
       <div class="search-bar">
-        <input type="tel" class="search-input" id="searchPhoneInput" placeholder="🔍 Поиск по номеру...">
+        <input type="tel" class="search-input" id="searchPhoneInput" placeholder="🔍 Найти по номеру (+7...)">
       </div>
 
       <div class="chat-list" id="chatList">
@@ -124,29 +142,52 @@
 
       <div class="messages-container" id="messagesContainer"></div>
 
+      <!-- ВСПЛЫВАЮЩИЕ СТИКЕРЫ -->
+      <div class="sticker-popover" id="stickerPopover">
+        <div class="sticker-item" onclick="sendSticker('🔥')">🔥</div>
+        <div class="sticker-item" onclick="sendSticker('😎')">😎</div>
+        <div class="sticker-item" onclick="sendSticker('❤️')">❤️</div>
+        <div class="sticker-item" onclick="sendSticker('🚀')">🚀</div>
+        <div class="sticker-item" onclick="sendSticker('💀')">💀</div>
+        <div class="sticker-item" onclick="sendSticker('🗿')">🗿</div>
+        <div class="sticker-item" onclick="sendSticker('👍')">👍</div>
+        <div class="sticker-item" onclick="sendSticker('🎉')">🎉</div>
+        <div class="sticker-item" onclick="sendSticker('😂')">😂</div>
+        <div class="sticker-item" onclick="sendSticker('⚡')">⚡</div>
+      </div>
+
+      <!-- ЗОНА ВВОДА -->
       <footer class="input-wrapper">
-        <input type="text" class="input-field" id="messageInput" placeholder="Написать сообщение..." autocomplete="off">
-        <button class="send-btn" id="sendBtn">➔</button>
+        <div class="reply-bar-active" id="replyBar">
+          <span id="replyBarText" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:85%;">Ответ на сообщение...</span>
+          <button id="cancelReplyBtn" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:1rem;">✕</button>
+        </div>
+        
+        <div class="input-controls">
+          <button style="background:none; border:none; font-size:1.4rem; cursor:pointer;" id="stickerToggle">😊</button>
+          <input type="text" class="input-field" id="messageInput" placeholder="Написать сообщение..." autocomplete="off">
+          <button class="send-btn" id="sendBtn">➔</button>
+        </div>
       </footer>
     </main>
   </div>
 
-  <!-- МОДАЛКА АВТОРИЗАЦИИ И ВХОДА (ВКЛАДКИ) -->
+  <!-- МОДАЛКА АВТОРИЗАЦИИ И ВХОДА -->
   <div class="modal-overlay" id="authModal" style="display:flex;">
     <div class="modal-box">
       <div class="tab-container">
-        <button class="tab-btn active" id="tabLoginBtn" onclick="switchAuthTab('login')">Вход</button>
-        <button class="tab-btn" id="tabRegBtn" onclick="switchAuthTab('reg')">Регистрация</button>
+        <button class="tab-btn active" id="tabLoginBtn">Вход</button>
+        <button class="tab-btn" id="tabRegBtn">Регистрация</button>
       </div>
 
-      <!-- ФОРМА ВХОДА -->
+      <!-- ВХОД -->
       <div id="loginForm" style="display:flex; flex-direction:column; gap:12px;">
         <input type="tel" class="search-input" id="loginPhone" placeholder="Номер телефона (+7...)">
         <input type="password" class="search-input" id="loginPassword" placeholder="Ваш пароль">
         <button class="btn-full" id="doLoginBtn">Войти</button>
       </div>
 
-      <!-- ФОРМА РЕГИСТРАЦИИ -->
+      <!-- РЕГИСТРАЦИЯ -->
       <div id="regForm" style="display:none; flex-direction:column; gap:12px;">
         <input type="tel" class="search-input" id="regPhone" placeholder="Номер телефона (+7...)">
         <input type="text" class="search-input" id="regName" placeholder="Ваше Имя / Ник">
@@ -170,7 +211,7 @@
       <div>
         <label style="font-size:0.8rem; color:var(--text-muted);">Аватарка (из файла):</label>
         <label class="file-input-label">
-          📁 Выбрать изображение аватара
+          📁 Выбрать аватарку
           <input type="file" id="avatarFileInput" accept="image/*" style="display:none;">
         </label>
         <img id="avatarPreview" style="width:50px; height:50px; border-radius:50%; margin-top:8px; display:none; object-fit:cover;">
@@ -179,17 +220,18 @@
       <div>
         <label style="font-size:0.8rem; color:var(--text-muted);">Фон чата (из файла):</label>
         <label class="file-input-label">
-          🎨 Выбрать изображение фона
+          🎨 Выбрать картинку фона
           <input type="file" id="bannerFileInput" accept="image/*" style="display:none;">
         </label>
       </div>
 
-      <button class="btn-full" id="saveProfileBtn">Сохранить изменения</button>
+      <button class="btn-full" id="saveProfileBtn">Сохранить</button>
       <button class="btn-full" style="background:#ef4444;" id="logoutBtn">Выйти из аккаунта</button>
       <button style="background:none; border:none; color:var(--text-muted); cursor:pointer;" id="closeProfileBtn">Отмена</button>
     </div>
   </div>
 
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
@@ -208,23 +250,25 @@
 
     let currentUser = null;
     let activeChatId = 'global';
+    let replyToMsg = null;
+    let unsubscribeMessages = null;
     let tempAvatarBase64 = null;
     let tempBannerBase64 = null;
 
-    // ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ВХОД / РЕГИСТРАЦИЯ
-    function switchAuthTab(tab) {
-      if (tab === 'login') {
-        document.getElementById('tabLoginBtn').classList.add('active');
-        document.getElementById('tabRegBtn').classList.remove('active');
-        document.getElementById('loginForm').style.display = 'flex';
-        document.getElementById('regForm').style.display = 'none';
-      } else {
-        document.getElementById('tabRegBtn').classList.add('active');
-        document.getElementById('tabLoginBtn').classList.remove('active');
-        document.getElementById('loginForm').style.display = 'none';
-        document.getElementById('regForm').style.display = 'flex';
-      }
-    }
+    // ВКЛАДКИ ВХОДА И РЕГИСТРАЦИИ
+    document.getElementById('tabLoginBtn').addEventListener('click', () => {
+      document.getElementById('tabLoginBtn').classList.add('active');
+      document.getElementById('tabRegBtn').classList.remove('active');
+      document.getElementById('loginForm').style.display = 'flex';
+      document.getElementById('regForm').style.display = 'none';
+    });
+
+    document.getElementById('tabRegBtn').addEventListener('click', () => {
+      document.getElementById('tabRegBtn').classList.add('active');
+      document.getElementById('tabLoginBtn').classList.remove('active');
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('regForm').style.display = 'flex';
+    });
 
     // АВТО-ВХОД
     const savedPhone = localStorage.getItem('slate_phone');
@@ -240,25 +284,21 @@
       });
     }
 
-    // РЕГИСТРАЦИЯ
+    // КНОПКА РЕГИСТРАЦИИ
     document.getElementById('doRegBtn').addEventListener('click', async () => {
       const phone = document.getElementById('regPhone').value.trim().replace(/\s+/g, '');
       const name = document.getElementById('regName').value.trim();
       const password = document.getElementById('regPassword').value.trim();
 
-      if (!phone || !name || !password) return alert('Заполните ВСЕ поля!');
+      if (!phone || !name || !password) return alert('Заполните все поля!');
 
       const userRef = db.collection('users').doc(phone);
       const doc = await userRef.get();
 
-      if (doc.exists) {
-        return alert('Пользователь с таким номером уже существует! Выполните вход.');
-      }
+      if (doc.exists) return alert('Этот номер уже зарегистрирован! Нажмите "Вход".');
 
       currentUser = {
-        phone,
-        name,
-        password,
+        phone, name, password,
         avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${name}`,
         banner: '',
         lastNameChange: Date.now()
@@ -270,24 +310,18 @@
       initApp();
     });
 
-    // ВХОД
+    // КНОПКА ВХОДА
     document.getElementById('doLoginBtn').addEventListener('click', async () => {
       const phone = document.getElementById('loginPhone').value.trim().replace(/\s+/g, '');
       const password = document.getElementById('loginPassword').value.trim();
 
-      if (!phone || !password) return alert('Заполните номер и пароль!');
+      if (!phone || !password) return alert('Введите номер и пароль!');
 
-      const userRef = db.collection('users').doc(phone);
-      const doc = await userRef.get();
-
-      if (!doc.exists) {
-        return alert('Аккаунт не найден! Зарегистрируйтесь.');
-      }
+      const doc = await db.collection('users').doc(phone).get();
+      if (!doc.exists) return alert('Пользователь не найден! Зарегистрируйтесь.');
 
       const userData = doc.data();
-      if (userData.password !== password) {
-        return alert('Неверный пароль!');
-      }
+      if (userData.password !== password) return alert('Неверный пароль!');
 
       currentUser = userData;
       localStorage.setItem('slate_phone', phone);
@@ -311,16 +345,14 @@
       }
     }
 
-    // ОТКРЫТИЕ И НАСТРОЙКИ ПРОФИЛЯ
+    // КНОПКА ПРОФИЛЯ
     document.getElementById('openProfileBtn').addEventListener('click', () => {
       if (!currentUser) return;
-
       const editNameInput = document.getElementById('editName');
       const notice = document.getElementById('nameChangeNotice');
       
       editNameInput.value = currentUser.name;
 
-      // Проверка 7 дней
       const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
       const lastChange = currentUser.lastNameChange || 0;
       const timePassed = Date.now() - lastChange;
@@ -328,7 +360,7 @@
       if (lastChange && timePassed < SEVEN_DAYS) {
         const daysLeft = Math.ceil((SEVEN_DAYS - timePassed) / (24 * 60 * 60 * 1000));
         editNameInput.disabled = true;
-        notice.textContent = `Менять имя можно через ${daysLeft} дн.`;
+        notice.textContent = `Смена ника доступна через ${daysLeft} дн.`;
         notice.style.display = 'block';
       } else {
         editNameInput.disabled = false;
@@ -342,7 +374,7 @@
       document.getElementById('profileModal').style.display = 'none';
     });
 
-    // СЖАТИЕ И КОНВЕРТАЦИЯ ИЗОБРАЖЕНИЙ В BASE64
+    // ОБРАБОТКА ФАЙЛОВ АВАТАРА И ФОНА
     function compressAndConvert(file, maxWidth, maxHeight, callback) {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -359,92 +391,4 @@
         };
         img.src = e.target.result;
       };
-      reader.readAsDataURL(file);
-    }
-
-    // ФАЙЛ АВАТАРА
-    document.getElementById('avatarFileInput').addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      compressAndConvert(file, 200, 200, (base64) => {
-        tempAvatarBase64 = base64;
-        const prev = document.getElementById('avatarPreview');
-        prev.src = base64;
-        prev.style.display = 'block';
-      });
-    });
-
-    // ФАЙЛ БАННЕРА
-    document.getElementById('bannerFileInput').addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      compressAndConvert(file, 800, 600, (base64) => {
-        tempBannerBase64 = base64;
-        alert('Фон выбран!');
-      });
-    });
-
-    // СОХРАНЕНИЕ ПРОФИЛЯ
-    document.getElementById('saveProfileBtn').addEventListener('click', async () => {
-      const newName = document.getElementById('editName').value.trim();
-
-      if (newName !== currentUser.name && !document.getElementById('editName').disabled) {
-        currentUser.name = newName;
-        currentUser.lastNameChange = Date.now();
-      }
-
-      if (tempAvatarBase64) currentUser.avatar = tempAvatarBase64;
-      if (tempBannerBase64) currentUser.banner = tempBannerBase64;
-
-      await db.collection('users').doc(currentUser.phone).update(currentUser);
-      initApp();
-      document.getElementById('profileModal').style.display = 'none';
-      alert('Профиль обновлен!');
-    });
-
-    // ВЫХОД
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      localStorage.removeItem('slate_phone');
-      location.reload();
-    });
-
-    // ЧАТЫ И СООБЩЕНИЯ
-    function switchChat(chatId, title, avatarUrl = null) {
-      activeChatId = chatId;
-      document.getElementById('activeChatTitle').textContent = title;
-      document.getElementById('activeChatAvatar').src = avatarUrl || `https://api.dicebear.com/7.x/identicon/svg?seed=${chatId}`;
-      loadMessages(chatId);
-    }
-
-    function loadMessages(chatId) {
-      const container = document.getElementById('messagesContainer');
-      db.collection('messages')
-        .where('chatId', '==', chatId)
-        .orderBy('createdAt', 'asc')
-        .onSnapshot((snapshot) => {
-          container.innerHTML = '';
-          snapshot.forEach((doc) => {
-            const data = doc.data();
-            const isMe = currentUser && data.senderPhone === currentUser.phone;
-
-            const group = document.createElement('div');
-            group.className = `msg-group ${isMe ? 'me' : ''}`;
-
-            const date = data.createdAt ? new Date(data.createdAt.seconds * 1000) : new Date();
-            const timeStr = `${date.getHours().toString().padStart(2,'0')}:${date.getMinutes().toString().padStart(2,'0')}`;
-
-            group.innerHTML = `
-              <img src="${data.senderAvatar}" class="avatar" style="width:32px; height:32px;">
-              <div class="msg-bubble">
-                <div class="msg-author">${data.senderName}</div>
-                <div>${data.text}</div>
-                <div class="msg-meta">${timeStr}</div>
-              </div>
-            `;
-            container.appendChild(group);
-          });
-          container.scrollTop = container.scrollHeight;
-        });
-    }
-
-    document.getElementById('sendBtn').addEventListener('click', sendMessa
+  
