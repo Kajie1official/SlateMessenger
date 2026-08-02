@@ -1,4 +1,174 @@
-transition: all 0.3s ease-in-out;
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SlateMessenger</title>
+  
+  <!-- PWA Theme Color -->
+  <meta name="theme-color" content="#0f172a">
+  
+  <style>
+    /* === БАЗОВЫЕ НАСТРОЙКИ И ТЁМНАЯ ТЕМА (SLATE) === */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #0f172a; /* Deep Slate Background */
+      color: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* === ОСНОВНОЙ КОНТЕЙНЕР === */
+    .app-container {
+      width: 100%;
+      max-width: 480px;
+      height: 100vh;
+      background-color: #1e293b; /* Dark Slate Panel */
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    @media (min-width: 500px) {
+      .app-container {
+        height: 90vh;
+        border-radius: 16px;
+        border: 1px solid #334155;
+      }
+    }
+
+    /* === ШАПКА MESSENGER === */
+    .header {
+      padding: 16px 20px;
+      background: #0f172a;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+    }
+
+    .user-status {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    /* === ОБЛАСТЬ СООБЩЕНИЙ === */
+    .chat-box {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scroll-behavior: smooth;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      word-wrap: break-word;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.received {
+      background-color: #334155;
+      color: #f1f5f9;
+      align-self: flex-start;
+      border-bottom-left-radius: 2px;
+    }
+
+    .message.sent {
+      background: linear-gradient(135deg, #4f46e5, #0284c7);
+      color: #ffffff;
+      align-self: flex-end;
+      border-bottom-right-radius: 2px;
+      box-shadow: 0 2px 10px rgba(2, 132, 199, 0.25);
+    }
+
+    .message-author {
+      font-size: 0.75rem;
+      opacity: 0.75;
+      margin-bottom: 2px;
+    }
+
+    /* === ПАНЕЛЬ ВВОДА === */
+    .input-area {
+      padding: 12px 16px;
+      background-color: #0f172a;
+      border-top: 1px solid #334155;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .chat-input {
+      flex: 1;
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      padding: 12px 16px;
+      border-radius: 12px;
+      outline: none;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    .chat-input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+    }
+
+    /* === СВЕТЯЩИЕСЯ КНОПКИ (GLOW BUTTONS) === */
+    .btn-glow {
+      background: linear-gradient(135deg, #6366f1, #38bdf8);
+      color: #ffffff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.3s ease-in-out;
       box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
     }
 
